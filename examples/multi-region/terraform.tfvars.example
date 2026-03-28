@@ -1,0 +1,64 @@
+##############################################################################
+# IBM Cloud Authentication
+##############################################################################
+
+ibmcloud_api_key = "YOUR_IBM_CLOUD_API_KEY_HERE"
+
+##############################################################################
+# Resource Group (Same across all regions)
+##############################################################################
+
+resource_group_id = "your-resource-group-id-here"
+
+##############################################################################
+# US-South Region Configuration
+##############################################################################
+
+vpc_id_us_south = "r006-12345678-1234-1234-1234-123456789012"
+
+subnet_ids_us_south = [
+  "0717-subnet-zone1-id",  # us-south-1
+  "0717-subnet-zone2-id"   # us-south-2
+]
+
+##############################################################################
+# EU-GB (London) Region Configuration
+##############################################################################
+
+vpc_id_eu_gb = "r018-12345678-1234-1234-1234-123456789012"
+
+subnet_ids_eu_gb = [
+  "0727-subnet-zone1-id",  # eu-gb-1
+  "0727-subnet-zone2-id"   # eu-gb-2
+]
+
+##############################################################################
+# JP-TOK (Tokyo) Region Configuration
+##############################################################################
+
+vpc_id_jp_tok = "r022-12345678-1234-1234-1234-123456789012"
+
+subnet_ids_jp_tok = [
+  "0767-subnet-zone1-id",  # jp-tok-1
+  "0767-subnet-zone2-id"   # jp-tok-2
+]
+
+##############################################################################
+# Notes
+##############################################################################
+
+# To get VPC and Subnet IDs for each region:
+#
+# 1. Switch to the target region:
+#    ibmcloud target -r <region>
+#
+# 2. List VPCs:
+#    ibmcloud is vpcs --output json | jq -r '.[] | "\(.name): \(.id)"'
+#
+# 3. List Subnets:
+#    ibmcloud is subnets --output json | jq -r '.[] | "\(.name): \(.id) (Zone: \(.zone.name))"'
+#
+# Regions:
+# - us-south (Dallas)
+# - eu-gb (London)
+# - jp-tok (Tokyo)

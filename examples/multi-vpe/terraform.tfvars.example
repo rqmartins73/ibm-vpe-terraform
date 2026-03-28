@@ -1,0 +1,53 @@
+##############################################################################
+# IBM Cloud Authentication
+##############################################################################
+
+ibmcloud_api_key = "YOUR_IBM_CLOUD_API_KEY_HERE"
+
+##############################################################################
+# Region and Resource Group
+##############################################################################
+
+region            = "us-south"
+resource_group_id = "your-resource-group-id-here"
+
+##############################################################################
+# VPC Configuration
+##############################################################################
+
+vpc_id = "r006-12345678-1234-1234-1234-123456789012"
+
+##############################################################################
+# Subnet Configuration
+# Organize subnets by service and availability zone for high availability
+##############################################################################
+
+# Cloud Object Storage - Multi-zone deployment (3 subnets across 3 zones)
+cos_subnet_ids = [
+  "0717-subnet-zone1-id",  # Zone 1
+  "0717-subnet-zone2-id",  # Zone 2
+  "0717-subnet-zone3-id"   # Zone 3
+]
+
+# Key Protect - Single zone
+kms_subnet_id = "0717-subnet-zone1-id"
+
+# Database - Single zone
+database_subnet_id = "0717-subnet-zone2-id"
+
+# Container Registry - Multi-zone deployment (2 subnets)
+registry_subnet_ids = [
+  "0717-subnet-zone1-id",  # Zone 1
+  "0717-subnet-zone2-id"   # Zone 2
+]
+
+##############################################################################
+# Optional Security Groups
+##############################################################################
+
+# Security groups to apply to all VPEs
+# Leave empty [] if you don't want to apply security groups
+security_group_ids = [
+  # "r006-sg-id-1",
+  # "r006-sg-id-2"
+]

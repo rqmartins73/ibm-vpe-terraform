@@ -1,0 +1,137 @@
+##############################################################################
+# IBM Cloud Authentication
+##############################################################################
+
+# Your IBM Cloud API Key
+# Get it from: https://cloud.ibm.com/iam/apikeys
+ibmcloud_api_key = "YOUR_IBM_CLOUD_API_KEY_HERE"
+
+# IBM Cloud region where VPE resources will be created
+# Options: us-south, us-east, eu-gb, eu-de, jp-tok, au-syd, etc.
+region = "us-south"
+
+# Resource Group ID where VPE resources will be created
+# Get it with: ibmcloud resource groups --output json | jq -r '.[] | "\(.name): \(.id)"'
+resource_group_id = "your-resource-group-id-here"
+
+##############################################################################
+# VPE Configurations
+##############################################################################
+
+# Example 1: Single VPE for Cloud Object Storage
+vpe_configurations = [
+  {
+    name       = "cos-vpe"
+    vpc_id     = "r006-12345678-1234-1234-1234-123456789012"
+    subnet_ids = ["0717-12345678-1234-1234-1234-123456789012"]
+    target_crn = "crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.us-south.cloud-object-storage.appdomain.cloud"
+    tags       = ["env:prod", "service:cos"]
+  }
+]
+
+# Example 2: Multiple VPEs across different services and zones
+# vpe_configurations = [
+#   {
+#     name       = "cos-vpe-multizone"
+#     vpc_id     = "r006-vpc-id-1"
+#     subnet_ids = [
+#       "0717-subnet-zone1-id",
+#       "0717-subnet-zone2-id",
+#       "0717-subnet-zone3-id"
+#     ]
+#     target_crn         = "crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.us-south.cloud-object-storage.appdomain.cloud"
+#     security_group_ids = ["r006-sg-id-1", "r006-sg-id-2"]
+#     tags               = ["env:prod", "service:cos", "ha:enabled"]
+#   },
+#   {
+#     name       = "kms-vpe"
+#     vpc_id     = "r006-vpc-id-1"
+#     subnet_ids = ["0717-subnet-zone1-id"]
+#     target_crn = "crn:v1:bluemix:public:kms:us-south:::endpoint:private.us-south.kms.cloud.ibm.com"
+#     tags       = ["env:prod", "service:kms"]
+#   },
+#   {
+#     name               = "postgres-vpe"
+#     vpc_id             = "r006-vpc-id-2"
+#     subnet_ids         = ["0717-subnet-zone2-id"]
+#     target_crn         = "crn:v1:bluemix:public:databases-for-postgresql:us-south:::endpoint:private.us-south.databases.appdomain.cloud"
+#     security_group_ids = ["r006-sg-id-3"]
+#     resource_group_id  = "different-resource-group-id"
+#     tags               = ["env:prod", "service:database"]
+#   },
+#   {
+#     name       = "container-registry-vpe"
+#     vpc_id     = "r006-vpc-id-1"
+#     subnet_ids = ["0717-subnet-zone1-id", "0717-subnet-zone2-id"]
+#     target_crn = "crn:v1:bluemix:public:container-registry:us-south:::endpoint:private.us.icr.io"
+#     tags       = ["env:prod", "service:registry"]
+#   }
+# ]
+
+##############################################################################
+# Optional Global Settings
+##############################################################################
+
+# Prefix to add to all VPE resource names
+# Example: "myapp" will create "myapp-cos-vpe", "myapp-kms-vpe", etc.
+prefix = ""
+
+# Global tags to apply to all VPE resources
+# These will be merged with VPE-specific tags
+tags = ["managed-by:terraform", "project:myproject"]
+
+##############################################################################
+# How to Get Required Information
+##############################################################################
+
+# VPC IDs:
+# ibmcloud is vpcs --output json | jq -r '.[] | "\(.name): \(.id)"'
+
+# Subnet IDs:
+# ibmcloud is subnets --output json | jq -r '.[] | "\(.name): \(.id) (Zone: \(.zone.name), VPC: \(.vpc.name))"'
+
+# Security Group IDs:
+# ibmcloud is security-groups --output json | jq -r '.[] | "\(.name): \(.id)"'
+
+# Resource Group IDs:
+# ibmcloud resource groups --output json | jq -r '.[] | "\(.name): \(.id)"'
+
+##############################################################################
+# Common Service Endpoint CRNs by Region
+##############################################################################
+
+# US-SOUTH
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.us-south.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:us-south:::endpoint:private.us-south.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:us-south:::endpoint:private.us-south.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:us-south:::endpoint:private.us.icr.io
+
+# US-EAST
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.us-east.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:us-east:::endpoint:private.us-east.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:us-east:::endpoint:private.us-east.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:us-east:::endpoint:private.us.icr.io
+
+# EU-GB (London)
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.eu-gb.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:eu-gb:::endpoint:private.eu-gb.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:eu-gb:::endpoint:private.eu-gb.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:eu-gb:::endpoint:private.uk.icr.io
+
+# EU-DE (Frankfurt)
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.eu-de.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:eu-de:::endpoint:private.eu-de.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:eu-de:::endpoint:private.eu-de.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:eu-de:::endpoint:private.de.icr.io
+
+# JP-TOK (Tokyo)
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.jp-tok.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:jp-tok:::endpoint:private.jp-tok.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:jp-tok:::endpoint:private.jp-tok.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:jp-tok:::endpoint:private.jp.icr.io
+
+# AU-SYD (Sydney)
+# COS: crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.au-syd.cloud-object-storage.appdomain.cloud
+# KMS: crn:v1:bluemix:public:kms:au-syd:::endpoint:private.au-syd.kms.cloud.ibm.com
+# PostgreSQL: crn:v1:bluemix:public:databases-for-postgresql:au-syd:::endpoint:private.au-syd.databases.appdomain.cloud
+# Container Registry: crn:v1:bluemix:public:container-registry:au-syd:::endpoint:private.au.icr.io
