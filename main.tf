@@ -2,7 +2,22 @@
 # IBM Cloud Virtual Private Endpoint Gateway
 ##############################################################################
 
+##############################################################################
+# Data Source - Resource Group Lookup
+##############################################################################
+
+data "ibm_resource_group" "resource_group" {
+  count = var.resource_group_name != null ? 1 : 0
+  name  = var.resource_group_name
+}
+
 locals {
+  # Determine the resource group ID to use
+  resource_group_id = coalesce(
+    var.resource_group_id,
+    try(data.ibm_resource_group.resource_group[0].id, null)
+  )
+
   # Merge global tags with VPE-specific tags
   vpe_tags = { for idx, vpe in var.vpe_configurations : idx => concat(
     var.tags,
@@ -24,7 +39,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe" {
 
   name           = local.vpe_names[each.key]
   vpc            = each.value.vpc_id
-  resource_group = coalesce(each.value.resource_group_id, var.resource_group_id)
+  resource_group = coalesce(each.value.resource_group_id, local.resource_group_id)
   tags           = local.vpe_tags[each.key]
 
   target {

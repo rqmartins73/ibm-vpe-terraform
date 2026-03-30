@@ -15,8 +15,20 @@ variable "region" {
 }
 
 variable "resource_group_id" {
-  description = "ID of the resource group where VPE resources will be created"
+  description = "ID of the resource group where VPE resources will be created. If not provided, resource_group_name must be specified."
   type        = string
+  default     = null
+
+  validation {
+    condition     = var.resource_group_id != null || var.resource_group_name != null
+    error_message = "Either resource_group_id or resource_group_name must be provided."
+  }
+}
+
+variable "resource_group_name" {
+  description = "Name of the resource group where VPE resources will be created. Used to lookup the ID if resource_group_id is not provided."
+  type        = string
+  default     = null
 }
 
 ##############################################################################

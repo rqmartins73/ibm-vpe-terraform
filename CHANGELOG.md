@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-30
+
+### Added
+- Support for `resource_group_name` variable as an alternative to `resource_group_id`
+- Automatic resource group ID lookup when using `resource_group_name`
+- Data source `ibm_resource_group` for name-to-ID resolution
+- Validation to ensure either `resource_group_id` or `resource_group_name` is provided
+
+### Changed
+- `resource_group_id` is now optional (default: null)
+- Updated documentation with examples using both ID and name approaches
+
+### Fixed
+- Improved resource group ID handling using `coalesce()` function to prevent null values
+- Fixed issue where null `resource_group_id` in VPE configurations caused API errors
+
 ## [1.0.0] - 2026-03-28
 
 ### Added

@@ -22,7 +22,7 @@ This Terraform module creates IBM Cloud Virtual Private Endpoints (VPE) with fle
 
 ## Usage
 
-### Basic Example - Single VPE
+### Basic Example - Single VPE (using Resource Group ID)
 
 ```hcl
 module "vpe" {
@@ -31,6 +31,28 @@ module "vpe" {
   ibmcloud_api_key  = var.ibmcloud_api_key
   region            = "us-south"
   resource_group_id = "your-resource-group-id"
+
+  vpe_configurations = [
+    {
+      name       = "cos-vpe"
+      vpc_id     = "r006-12345678-1234-1234-1234-123456789012"
+      subnet_ids = ["0717-12345678-1234-1234-1234-123456789012"]
+      target_crn = "crn:v1:bluemix:public:cloud-object-storage:global:::endpoint:s3.direct.us-south.cloud-object-storage.appdomain.cloud"
+      tags       = ["env:prod", "service:cos"]
+    }
+  ]
+}
+```
+
+### Basic Example - Single VPE (using Resource Group Name)
+
+```hcl
+module "vpe" {
+  source = "./ibm-vpe-terraform"
+
+  ibmcloud_api_key    = var.ibmcloud_api_key
+  region              = "us-south"
+  resource_group_name = "Default"  # Module will lookup the ID automatically
 
   vpe_configurations = [
     {
@@ -134,8 +156,10 @@ Supported regions: `us-south`, `us-east`, `eu-gb`, `eu-de`, `jp-tok`, `au-syd`
 | Name | Description | Type |
 |------|-------------|------|
 | `ibmcloud_api_key` | IBM Cloud API key | `string` |
-| `resource_group_id` | ID of the resource group | `string` |
+| `resource_group_id` OR `resource_group_name` | ID or Name of the resource group (one required) | `string` |
 | `vpe_configurations` | List of VPE configurations | `list(object)` |
+
+**Note:** You must provide either `resource_group_id` OR `resource_group_name`. If you provide the name, the module will automatically lookup the ID.
 
 ### VPE Configuration Object
 
