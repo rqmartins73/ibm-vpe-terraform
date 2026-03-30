@@ -24,7 +24,7 @@ resource "ibm_is_virtual_endpoint_gateway" "vpe" {
 
   name           = local.vpe_names[each.key]
   vpc            = each.value.vpc_id
-  resource_group = each.value.resource_group_id != null ? each.value.resource_group_id : var.resource_group_id
+  resource_group = coalesce(each.value.resource_group_id, var.resource_group_id)
   tags           = local.vpe_tags[each.key]
 
   target {
