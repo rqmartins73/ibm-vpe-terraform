@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Push Repo to GitHub
+#########################################
+description=$1
+if [[ $# -ne 1 ]]; then
+	echo "ERROR: Wrong syntax." >&2
+	echo "Usage: $(basename "$0") \"Description...\"" >&2
+	exit 1
+fi
+echo
+echo "======  How it was!  ======"
+echo
+ls -la
+ls -laR modules
+find . -type f -name '*:Zone.Identifier' -delete
+echo
+echo "======  How it is now!  ======"
+echo
+ls -la
+ls -laR modules
+read -p "Ready to go? <ENTER>"
+git init
+git add .
+git status
+git commit -m "$description"
+git branch -M main
+git push -u origin main
