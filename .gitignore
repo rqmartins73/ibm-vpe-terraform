@@ -55,3 +55,4 @@ terraform.rc
 .env.*.local
 *.tfvars
 *.gitpush
+tfvars/*.tfvars
