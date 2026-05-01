@@ -333,3 +333,9 @@ For issues related to:
 - [IBM Cloud VPC Virtual Private Endpoints](https://cloud.ibm.com/docs/vpc?topic=vpc-about-vpe)
 - [IBM Cloud Terraform Provider - VPE Gateway](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/is_virtual_endpoint_gateway)
 - [IBM Cloud Service Endpoints](https://cloud.ibm.com/docs/account?topic=account-service-endpoints-overview)
+---
+## Author
+
+Ricardo Martins  
+IBM Power Technical Leader @ Blue Chip Portugal  
+IBM Champion 2025 | 2026
